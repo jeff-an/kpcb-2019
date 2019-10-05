@@ -15,6 +15,7 @@ class Game:
     def score_hand(self, cards):
         score = 0
         num_aces = 0
+        # Separate aces and non-aces
         for card in cards:
             if card.symbol == "A":
                 num_aces += 1
@@ -37,12 +38,10 @@ class Game:
             os.system('cls')
         else:
             os.system('clear')
-        print("*" * 10 + "    ROUND {}    ".format(self.round) + "*" * 10)
-        print()
+        print("*" * 10 + "    ROUND {}    ".format(self.round) + "*" * 10 + "\n")
         print("Scoreboard:")
         print("Player: {}".format(self.tally["Player"]))
-        print("Dealer: {}".format(self.tally["Dealer"]))
-        print()
+        print("Dealer: {}\n".format(self.tally["Dealer"]))
 
     def print_hands(self, dealer_cards, player_cards):
         print("Dealer's hand:")
@@ -70,9 +69,11 @@ class Game:
         # Draw initial cards
         first_card = self.deck.draw_top()
         first_card.toggle_hidden()
+
         dealer_cards = [first_card, self.deck.draw_top()]
-        dealer_score = self.score_hand(dealer_cards)
         player_cards = [self.deck.draw_top(), self.deck.draw_top()]
+
+        dealer_score = self.score_hand(dealer_cards)
         player_score = self.score_hand(player_cards)
 
         # Show initial hands
@@ -80,7 +81,10 @@ class Game:
 
         # Player hits
         while player_score < 21:
-            result = input("Would you like another card (Y/n)\n")
+            if len(player_cards) == 2:
+                print("It's your turn to hit!")
+                sleep(1.5)
+            result = input("Would you like another card (Y/n)?\n")
             if result.upper() != "Y":
                 break
             player_cards.append(self.deck.draw_top())
