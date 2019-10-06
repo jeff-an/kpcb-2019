@@ -78,6 +78,7 @@ class Game:
 
         # Show initial hands
         self.print_hands(dealer_cards, player_cards)
+        sleep(1)
 
         # Player hits
         while player_score < 21:
